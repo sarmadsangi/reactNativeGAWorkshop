@@ -57,8 +57,20 @@ class MyListView extends Component {
     return (
       <ListView
         dataSource={this.state.dataSource}
-        renderRow={(rowData) => <Text>{rowData.username}</Text>}
+        renderRow={(rowData) => <UserBox {...rowData} />}
       />
+    );
+  }
+}
+
+
+class UserBox extends Component {
+  render() {
+    return (
+      <View style={styles.userBox} >
+        <Text>{this.props.username}</Text>
+        <Text>{this.props.displayname}</Text>
+      </View>
     );
   }
 }
@@ -71,6 +83,11 @@ const styles = StyleSheet.create({
   listViewContainer: {
     flex: 1,
     backgroundColor: 'blue'
+  },
+  userBox: {
+    padding: 5,
+    marginBottom: 10,
+    backgroundColor: '#f5f5f5'
   }
 });
 
