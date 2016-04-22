@@ -10,6 +10,8 @@ import React, {
   StyleSheet,
   NavigatorIOS,
   ListView,
+  TouchableHighlight,
+  Image,
   View,
   Text
 } from 'react-native';
@@ -57,7 +59,7 @@ class MyListView extends Component {
     return (
       <ListView
         dataSource={this.state.dataSource}
-        renderRow={(rowData) => <UserBox {...rowData} />}
+        renderRow={(rowData) => <UserBox {...rowData} navigator={this.props.navigator} />}
       />
     );
   }
@@ -67,11 +69,35 @@ class MyListView extends Component {
 class UserBox extends Component {
   render() {
     return (
-      <View style={styles.userBox} >
+      <TouchableHighlight onPress={() => {
+            this.props.navigator.push({
+              title: this.props.displayname,
+              component: UserProfileScreen,
+              passProps: this.props
+            })
+          }}
+        >
+          <View style={styles.userBox} >
+            <Text>{this.props.username}</Text>
+            <Text>{this.props.displayname}</Text>
+          </View>
+      </TouchableHighlight>
+    );
+  }
+}
+
+class UserProfileScreen extends Component {
+  render() {
+    return (
+      <View style={styles.userProfileScreen} >
+        <Image
+          style={styles.profilePic}
+          source={{uri: this.props.avatarurlmedium}}
+          />
         <Text>{this.props.username}</Text>
         <Text>{this.props.displayname}</Text>
       </View>
-    );
+    )
   }
 }
 
@@ -88,6 +114,18 @@ const styles = StyleSheet.create({
     padding: 5,
     marginBottom: 10,
     backgroundColor: '#f5f5f5'
+  },
+  userProfileScreen: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 100,
+    width: 500
+  },
+  profilePic: {
+    width: 100,
+    height: 100,
+    borderRadius: 5
   }
 });
 
